@@ -48,6 +48,7 @@ trait RollbackRevisionJsonRepresentation
     {
         $relatedPrimaryKey = $attributes['records']['primary_key'];
         $relatedRecords = $attributes['records']['items'];
+        $model = new $attributes['class'];
 
         // delete extra added child related records after the revision checkpoint
         if (RelationHelper::isChild($attributes['type'])) {
@@ -81,6 +82,7 @@ trait RollbackRevisionJsonRepresentation
                 $rel->{$rel->getDeletedAtColumn()} = null;
             }
 
+            $rel->id = ($model->orderBy('id', 'desc')->withTrashed()->first()->id + 1);
             $rel->save();
         }
     }
