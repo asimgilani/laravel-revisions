@@ -63,6 +63,12 @@ trait RollbackRevisionJsonRepresentation
                 $this->{$relation}()->whereIn($relatedPrimaryKey, $extraRelated)->delete();
             }
         }
+        
+        foreach ($relatedRecords as $key => $value) {
+            $sec = $model->where('id', $value['id'])->withTrashed()->first();
+            $sec->deleted_at = null;
+            $sec->save();
+        }
 
         // rollback each related record to its revision checkpoint
         foreach ($relatedRecords as $item) {
@@ -82,7 +88,6 @@ trait RollbackRevisionJsonRepresentation
                 $rel->{$rel->getDeletedAtColumn()} = null;
             }
 
-            $rel->id = ($model->orderBy('id', 'desc')->withTrashed()->first()->id + 1);
             $rel->save();
         }
     }
