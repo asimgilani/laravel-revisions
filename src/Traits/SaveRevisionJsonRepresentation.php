@@ -86,8 +86,8 @@ trait SaveRevisionJsonRepresentation
             'type' => $attributes['type'],
             'class' => get_class($attributes['model']),
             'records' => [
-                'primary_key' => null,
-                'foreign_key' => null,
+                'primary_key' => 'id',
+                'foreign_key' => $this->{$relation}()->getForeignKeyName(),
                 'items' => [],
             ],
         ];
