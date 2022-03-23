@@ -139,6 +139,7 @@ trait HasRevisions
                 $revision = $this->revisions()->create([
                     'user_id' => auth()->id() ?: null,
                     'metadata' => $this->buildRevisionData(),
+                    'revision_group_id' => optional(optional(optional($this)->revision_at)->toArray())['timestamp']
                 ]);
 
                 $activeRevision = $this->revisions()

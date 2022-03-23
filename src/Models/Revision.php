@@ -26,6 +26,7 @@ class Revision extends Model implements RevisionModelContract
         'revisionable_id',
         'revisionable_type',
         'metadata',
+        'revision_group_id'
     ];
 
     /**
