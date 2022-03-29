@@ -142,17 +142,6 @@ trait HasRevisions
                     'revision_group_id' => optional($this)->current_revision_group_id
                 ]);
 
-                $activeRevision = $this->revisions()
-                    ->where('revisionable_id', $revision->revisionable_id)
-                    ->where('revisionable_type', $revision->revisionable_type)
-                    ->where('is_current', 1)->first();
-                
-                if ($activeRevision) {
-                    $activeRevision->is_current = 0;
-                    $activeRevision->save();
-                }
-
-                $revision->is_current = 1;
                 $revision->save();
 
                 $this->clearOldRevisions();
